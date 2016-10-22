@@ -1,0 +1,20 @@
+current directory: /Users/nguyenthang/training-api/vendor/bundle/ruby/2.3.0/gems/bson-4.1.1/ext/bson
+/Users/nguyenthang/.rbenv/versions/2.3.1/bin/ruby -r ./siteconf20161022-15894-19rtpcz.rb extconf.rb
+creating Makefile
+
+current directory: /Users/nguyenthang/training-api/vendor/bundle/ruby/2.3.0/gems/bson-4.1.1/ext/bson
+make "DESTDIR=" clean
+
+current directory: /Users/nguyenthang/training-api/vendor/bundle/ruby/2.3.0/gems/bson-4.1.1/ext/bson
+make "DESTDIR="
+compiling native.c
+In file included from native.c:21:
+./native-endian.h:195:15: warning: unused function '__bson_double_swap_slow' [-Wunused-function]
+static double __bson_double_swap_slow(double v)
+              ^
+1 warning generated.
+linking shared-object native.bundle
+
+current directory: /Users/nguyenthang/training-api/vendor/bundle/ruby/2.3.0/gems/bson-4.1.1/ext/bson
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 native.bundle ./.gem.20161022-15894-1stmdcr
