@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
 
+  devise_for :users
     namespace :admin do
       resources :users
     end
 
-    namespace :public do
-      resources :users
+    scope module: 'public' do
+      root to: 'home#index'
     end
 end
