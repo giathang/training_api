@@ -11,7 +11,7 @@ gem 'mongoid', '6.0.0'
 gem 'bson_ext'
 gem 'devise'
 gem 'kaminari'
-
+gem "slim-rails"
 
 group :development, :test do
   gem 'byebug'

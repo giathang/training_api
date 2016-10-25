@@ -1,0 +1,26 @@
+table class="table table-striped"
+  thead
+    tr
+      th #
+      th First Name
+      th Last Name
+      th User name
+      th Email
+      th Birthday
+      th
+  tbody class="list-users"
+script#list-users-template[type="text/template"]
+  | <% idx = 0 %>
+  | <%_.each(users, function(user) { %>
+  |   <tr>
+        <td><%- idx = idx + 1 %> </td>
+        <td><%- user.first_name %></td>
+        <td><%- user.last_name %></td>
+        <td><%- user.user_name %></td>
+        <td><%- user.email %></td>
+        <td><%- user.birthday %></td>
+        <td><a href="#{admin_users_path}/<%- user._id %>/edit" class="btn btn-lg btn-default">Edit</a></td>
+      </tr>
+  | <% }) %>
+
+

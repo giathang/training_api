@@ -28,6 +28,8 @@ class User
   field :last_name, type: String
   field :user_name, type: String
   field :birthday, type: Date
+  field :_id, type: String, default: ->{ name }
+
   # field :image, type: String
   # field :company_id, type: Integer
 
