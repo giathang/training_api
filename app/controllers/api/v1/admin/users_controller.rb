@@ -5,7 +5,7 @@ class Api::V1::Admin::UsersController < ApplicationController
 
   # GET /api/v1/admin/users
   def index
-    @users = User.all.page(params[:page]).per(5)
+    @users = User.all.page(params[:page]).per(10)
     @data = {
       users: @users,
       page: params[:page],
@@ -16,17 +16,14 @@ class Api::V1::Admin::UsersController < ApplicationController
 
   # GET /api/v1/admin/users/:id
   def show
-    render json: {status: :ok, data: @user}
+    render json: {code: 200, data: @user}
   end
 
   # POST /api/v1/admin/users
   def create
-    puts params
-    puts '<<<<<<<<<<'
-    puts user_params
     @user = User.new(user_params)
     if @user.save
-      render json: {status: :created, data: @user}
+      render json: {code: 200, data: @user, msg: ""}
     else
       render json: {status: :unprocessable_entity, data: @user.errors}
     end
@@ -35,7 +32,7 @@ class Api::V1::Admin::UsersController < ApplicationController
   # PUT /api/v1/admin/users/:id
   def update
     if @user.update(user_params)
-      render json: {status: :ok, data: @user}
+      render json: {code: 200, data: @user}
     else
       render json: {status: :unprocessable_entity,data: @user.errors}
     end
@@ -54,7 +51,7 @@ class Api::V1::Admin::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :password)
+    params.permit(:email, :password, :first_name, :last_name, :user_name)
   end
 
 end

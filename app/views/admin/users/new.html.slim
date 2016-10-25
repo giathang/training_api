@@ -1,0 +1,47 @@
+= content_for :js_pages
+  = javascript_include_tag '/assets/admin/new', 'data-turbolinks-track' => true
+
+form
+  div class="form-group"
+    label for="email" Email address:
+    input type="email" class="form-control" id="email"
+  div class="form-group"
+    label for="password"Password:
+    input type="password" class="form-control" id="password"
+  div class="form-group"
+    label for="first_name" first name:
+    input type="text" class="form-control" id="first_name"
+  div class="form-group"
+    label for="last_name" last name:
+    input type="text" class="form-control" id="last_name"
+  div class="form-group"
+    label for="user_name" user name:
+    input type="text" class="form-control" id="user_name"
+  div class="form-group"
+    button type="submit" class="btn btn-default js-user-create"Submit
+
+
+
+/= form_for :user, url: '' do |f|
+/  div class="form-group"
+/  = f.label :first_name
+/  = f.text_field :first_name, class: "form-control"
+/
+/  div class="form-group"
+/  = f.label :last_name
+/  = f.text_field :last_name, class: "form-control"
+/
+/  div class="form-group"
+/  = f.label :user_name
+/  = f.text_field :user_name, class: "form-control"
+/
+/  div class="form-group"
+/  = f.label :email
+/  = f.text_field :email, class: "form-control"
+/
+/  div class="form-group"
+/  = f.label :password
+/  = f.password_field :password, class: "form-control"
+/
+/  div class="form-group"
+/  = f.submit 'Create User', class: "btn btn-default js-user-create"

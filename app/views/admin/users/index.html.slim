@@ -1,3 +1,7 @@
+= content_for :js_pages
+  = javascript_include_tag '/assets/admin/index', 'data-turbolinks-track' => true
+= link_to 'New User', new_admin_user_path, class: 'btn btn-sm btn-primary'
+
 table class="table table-striped"
   thead
     tr
