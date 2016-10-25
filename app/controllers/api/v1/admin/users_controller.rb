@@ -1,6 +1,6 @@
 class Api::V1::Admin::UsersController < ApplicationController
   before_action :get_user, only: [:show, :update, :destroy]
-  skip_before_action :verify_authenticity_token, only: :create
+  skip_before_action :verify_authenticity_token
 
 
   # GET /api/v1/admin/users
@@ -21,6 +21,9 @@ class Api::V1::Admin::UsersController < ApplicationController
 
   # POST /api/v1/admin/users
   def create
+    puts params
+    puts '<<<<<<<<<<'
+    puts user_params
     @user = User.new(user_params)
     if @user.save
       render json: {status: :created, data: @user}
@@ -51,7 +54,7 @@ class Api::V1::Admin::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :birthday, :first_name, :last_name, :user_name, :password, :password_confirmation)
+    params.require(:user).permit(:email, :password)
   end
 
 end
