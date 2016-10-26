@@ -5,10 +5,9 @@ class Api::V1::Admin::UsersController < ApplicationController
 
   # GET /api/v1/admin/users
   def index
-    @users = User.all.page(params[:page]).per(10)
+    @users = User.all
     @data = {
       users: @users,
-      page: params[:page],
       total: @users.count
     }
     render json: {code: 200, data: @data, msg: 'OK'}
@@ -16,32 +15,42 @@ class Api::V1::Admin::UsersController < ApplicationController
 
   # GET /api/v1/admin/users/:id
   def show
-    render json: {code: 200, data: @user}
+    render json: {code: 200, data: @user, msg: 'Success'}
   end
 
   # POST /api/v1/admin/users
   def create
     @user = User.new(user_params)
     if @user.save
-      render json: {code: 200, data: @user, msg: ""}
+      @data = {
+        redirect_url: admin_path
+      }
+      
+      render json: {code: 200, data: @data ,msg: "Success"}
     else
-      render json: {status: :unprocessable_entity, data: @user.errors}
+      render json: {code: 200, data: @user.errors, msg: 'Errors'}
     end
   end
 
   # PUT /api/v1/admin/users/:id
   def update
-    if @user.update(user_params)
-      render json: {code: 200, data: @user}
+    @data = {
+      redirect_url: admin_path
+    }
+    if @user.update_attributes(user_params)
+      render json: {code: 200, data: @data, msg: "Success"}
     else
-      render json: {status: :unprocessable_entity,data: @user.errors}
+      render json: {code: 200, msg: "Fails",data: @user.errors}
     end
   end
 
   # DELETE /api/v1/admin/users/:id
   def destroy
     @user.destroy
-    render json: {head: :no_content,data: @user}
+    @data = {
+      redirect_url: admin_path
+    }
+    render json: {code: 200, data: @data, msg: "Success"}
   end
 
   private

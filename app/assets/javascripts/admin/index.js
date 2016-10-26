@@ -33,7 +33,33 @@ function User(options) {
   module.renderUsers = function(){
     var template = _.template(module.settings.template.list_users.html());
     module.settings.container.html(template({users: module.settings.data.users}));
+    module.clickDestroy();
   }
+
+  module.clickDestroy = function () {
+    $('.js-destroy-user').on('click',function (e) {
+      e.preventDefault();
+      userId = $(this).parents('tr').data('id');
+      console.log(userId)
+      module.destroyUser(userId);
+    });
+  }
+
+  module.destroyUser = function (userId) {
+    return $.ajax({
+      url: '/api/v1/admin/users/' + userId,
+      type: 'DELETE',
+      success: function (res) {
+        if(res.code == 200){
+          module.getUsers(module.renderUsers);
+          console.log('Success')
+        }else{
+          console.log('Fails')
+        }
+      }
+    })
+  }
+
   module.init = function () {
     module.getUsers(module.renderUsers);
   }

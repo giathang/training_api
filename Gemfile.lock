@@ -66,9 +66,6 @@ GEM
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
     json (1.8.3)
-    kaminari (0.17.0)
-      actionpack (>= 3.0.0)
-      activesupport (>= 3.0.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
@@ -200,7 +197,6 @@ DEPENDENCIES
   byebug
   devise
   jbuilder (~> 2.0)
-  kaminari
   mongoid (= 6.0.0)
   rack-mini-profiler (~> 0.10.1)
   rails (= 5.0.0)

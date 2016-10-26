@@ -1,0 +1,22 @@
+= content_for :js_pages
+  = javascript_include_tag '/assets/admin/edit', 'data-turbolinks-track' => true
+
+= form_for :user, url: '',html: { :"data-id" => "#{@user._id}"} do |f|
+  div class="form-group"
+  = f.label :first_name
+  = f.text_field :first_name, class: "form-control"
+
+  div class="form-group"
+  = f.label :last_name
+  = f.text_field :last_name, class: "form-control"
+
+  div class="form-group"
+  = f.label :user_name
+  = f.text_field :user_name, class: "form-control"
+
+  div class="form-group"
+  = f.label :email
+  = f.text_field :email, class: "form-control"
+
+  div class="form-group"
+  = f.submit 'Create User', class: "btn btn-default js-user-create"
