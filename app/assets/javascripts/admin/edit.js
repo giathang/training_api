@@ -31,7 +31,7 @@ function User(options) {
       success: function(res){
         if(res.code === 200){
           console.log('Create Success');
-          window.location.href = res.data.redirect_url;
+          // window.location.href = res.data.redirect_url;
         }else{
           console.log('Error');
         }

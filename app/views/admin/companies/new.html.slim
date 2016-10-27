@@ -1,0 +1,18 @@
+= content_for :js_pages
+  = javascript_include_tag '/assets/admin/company.new', 'data-turbolinks-track' => true
+
+= form_for :company, url: '' do |f|
+  div class="form-group"
+  = f.label :name
+  = f.text_field :name, class: "form-control"
+
+  div class="form-group"
+  = f.label :address
+  = f.text_field :address, class: "form-control"
+
+  div class="form-group"
+  = f.label :phone
+  = f.text_field :phone, class: "form-control"
+
+  div class="form-grouap"
+  = f.submit 'Create Company', class: "btn btn-default js-company-create"

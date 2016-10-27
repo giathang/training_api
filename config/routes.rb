@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get '' => 'users#index'
     resources :users, except: :index
+    resources :companies
   end
 
   scope module: 'public' do
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       namespace :admin do
         resources :users
+        resources :companies
       end
       scope module: 'public' do
         get '/users' => 'users#index'

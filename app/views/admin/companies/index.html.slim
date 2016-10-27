@@ -1,0 +1,27 @@
+= content_for :js_pages
+  = javascript_include_tag '/assets/admin/company', 'data-turbolinks-track' => true
+= link_to 'New Company', new_admin_company_path, class: 'btn btn-sm btn-primary'
+
+table class="table table-striped"
+  thead
+    tr
+      th #
+      th Name
+      th address
+      th phone
+      th
+  tbody class="list-companies"
+script#list-companies-template[type="text/template"]
+  | <% idx = 0 %>
+  | <%_.each(companies, function(company) { %>
+  |   <tr data-id="<%- company._id.$oid %>">
+        <td><%- idx = idx + 1 %> </td>
+        <td><%- company.name %></td>
+        <td><%- company.address %></td>
+        <td><%- company.phone %></td>
+        <td><a href="#{admin_companies_path}/<%- company._id.$oid %>/edit" class="btn btn-lg btn-default">Edit</a></td>
+        <td><a href="#" class='btn btn-lg btn-danger js-destroy-company'>Destroy</a></td>
+      </tr>
+  | <% }) %>
+
+
