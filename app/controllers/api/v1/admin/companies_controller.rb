@@ -2,7 +2,7 @@ class Api::V1::Admin::CompaniesController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :get_company, only: [:update, :destroy]
   def index
-    @companies = Company.all
+    @companies = Company.search(params[:search])
     @data = {
       companies: @companies,
       total: @companies.count

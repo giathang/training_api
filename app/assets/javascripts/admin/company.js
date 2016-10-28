@@ -59,6 +59,38 @@ function Company(options) {
     })
   }
 
+  module.actionSearch = function () {
+    $('.js-search').on('click',function (e) {
+      e.preventDefault();
+      var dataCompany = {},
+        currentContainer = $(this).parents('form');
+      console.log(currentContainer);
+      dataCompany.search = currentContainer.find('input#search').val();
+
+      module.getSearchCompanies(dataCompany);
+
+    })
+  }
+
+  module.getSearchCompanies = function (data) {
+    return $.ajax({
+      url: module.settings.api.index,
+      type: 'GET',
+      data: data,
+      dataType: 'json',
+      success: function(res){
+        if(res.code == 200){
+          module.settings.data.companies = res.data.companies;
+          module.renderCompanies();
+        }else{
+          $.notify(data.message);
+        }
+      },
+      error: function(){
+      }
+    });
+  }
+
   module.init = function () {
     module.getCompanies(module.renderCompanies);
   }
@@ -67,4 +99,5 @@ function Company(options) {
 $(document).ready(function () {
   var company = new Company;
   company.init();
+  company.actionSearch();
 })

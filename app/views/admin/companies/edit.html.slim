@@ -1,5 +1,5 @@
 = content_for :js_pages
-  = javascript_include_tag '/assets/admin/company.edit', 'data-turbolinks-track' => true
+  = javascript_include_tag '/assets/admin/company_edit', 'data-turbolinks-track' => true
 
 = form_for :company, url: '',html: { :"data-id" => "#{@company._id}"} do |f|
   div class="form-group"

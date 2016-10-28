@@ -6,7 +6,7 @@ function Company(options) {
   module.settings = $.extend({}, defaults, options);
 
   module.onSubmitCreate = function () {
-    $('.js-company-create').off('click').on('click', function (e) {
+    $('.js-company-create').on('click', function (e) {
       e.preventDefault();
       var dataComany = {},
         currentContainer = $(this).parents('form');
@@ -39,6 +39,6 @@ function Company(options) {
 
 }
 $(document).ready(function () {
-  var company = new Company
+  var company = new Company;
   company.onSubmitCreate();
-})
+});
