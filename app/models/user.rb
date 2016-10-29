@@ -33,4 +33,12 @@ class User
   # field :image, type: String
   # field :company_id, type: Integer
 
+  def self.search(search)
+    if search.blank?
+      all
+    else
+      where("this.email.match(/#{search}/i)")
+    end
+  end
+
 end

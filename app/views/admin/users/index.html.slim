@@ -1,7 +1,9 @@
 = content_for :js_pages
   = javascript_include_tag '/assets/admin/index', 'data-turbolinks-track' => true
 = link_to 'New User', new_admin_user_path, class: 'btn btn-sm btn-primary'
-
+= form_tag("/search", remote: true) do
+  = text_field_tag :search, params[:search]
+  = submit_tag "Search", title: nil, class: 'js-search'
 table class="table table-striped"
   thead
     tr

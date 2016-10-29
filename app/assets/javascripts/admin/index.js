@@ -60,6 +60,38 @@ function User(options) {
     })
   }
 
+  module.actionSearch = function () {
+    $('.js-search').on('click',function (e) {
+      e.preventDefault();
+      var dataCompany = {},
+        currentContainer = $(this).parents('form');
+      console.log(currentContainer);
+      dataCompany.search = currentContainer.find('input#search').val();
+
+      module.getSearchCompanies(dataCompany);
+
+    })
+  }
+
+  module.getSearchCompanies = function (data) {
+    return $.ajax({
+      url: module.settings.api.index,
+      type: 'GET',
+      data: data,
+      dataType: 'json',
+      success: function(res){
+        if(res.code == 200){
+          module.settings.data.users = res.data.users;
+          module.renderUsers();
+        }else{
+          $.notify(data.message);
+        }
+      },
+      error: function(){
+      }
+    });
+  }
+
   module.init = function () {
     module.getUsers(module.renderUsers);
   }
@@ -68,4 +100,5 @@ function User(options) {
 $(document).ready(function () {
   user = new User;
   user.init();
+  user.actionSearch();
 })

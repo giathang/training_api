@@ -5,7 +5,7 @@ class Api::V1::Admin::UsersController < ApplicationController
 
   # GET /api/v1/admin/users
   def index
-    @users = User.all
+    @users = User.search(params[:search])
     @data = {
       users: @users,
       total: @users.count

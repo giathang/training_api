@@ -4,12 +4,11 @@ class Company
   field :address, type: String
   field :phone, type: String
 
-
   def self.search(search)
-    unless search.empty?
-      self.where(name: search)
+    if search.blank?
+      all
     else
-      self.all
+      where("this.name.match(/#{search}/i)")
     end
   end
 end

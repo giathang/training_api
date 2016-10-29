@@ -3,6 +3,7 @@ class Api::V1::Admin::CompaniesController < ApplicationController
   before_action :get_company, only: [:update, :destroy]
   def index
     @companies = Company.search(params[:search])
+
     @data = {
       companies: @companies,
       total: @companies.count
