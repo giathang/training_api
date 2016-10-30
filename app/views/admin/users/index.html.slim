@@ -15,11 +15,13 @@ table class="table table-striped"
       th Birthday
       th
   tbody class="list-users"
+
+ul class="pagination"
+
 script#list-users-template[type="text/template"]
-  | <% idx = 0 %>
   | <%_.each(users, function(user) { %>
   |   <tr data-id="<%- user._id.$oid %>">
-        <td><%- idx = idx + 1 %> </td>
+        <td><%- user._id.$oid %> </td>
         <td><%- user.first_name %></td>
         <td><%- user.last_name %></td>
         <td><%- user.user_name %></td>
@@ -29,5 +31,13 @@ script#list-users-template[type="text/template"]
         <td><a href="#" class='btn btn-lg btn-danger js-destroy-user'>Destroy</a></td>
       </tr>
   | <% }) %>
-
-
+script#paginate-template[type="text/tempalte"]
+  |
+    <% for( var i = 1 ; i <= total_paginate; i++ ){%>
+      <% if ( i == 1 ){ %>
+        <li class='pagi active'><a href="#" data-page="<%- i %>"><%- i %></a></li>
+        <% continue; %>
+      <% } %>
+      <li class='pagi'><a href="#" data-page="<%- i %>"><%- i %></a></li>
+    <% } %>
+  |

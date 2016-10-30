@@ -2,8 +2,10 @@ function User(options) {
   var module = this;
   var defaults = {
     container: $('.list-users'),
+    container_pagination: $('.pagination'),
     template:{
-      'list_users': $('#list-users-template')
+      'list_users': $('#list-users-template'),
+      'pagination_template': $('#paginate-template')
     },
     api: {
       'index': '/api/v1/admin/users'
@@ -19,6 +21,7 @@ function User(options) {
       success: function(res){
         if(res.code == 200){
           module.settings.data.users = res.data.users;
+          module.settings.data.total_paginate = res.data.total_paginate;
           if(callback) {
             callback()
           }
@@ -34,6 +37,43 @@ function User(options) {
     var template = _.template(module.settings.template.list_users.html());
     module.settings.container.html(template({users: module.settings.data.users}));
     module.clickDestroy();
+  }
+
+  module.renderPaginate = function () {
+    var template_pagi = _.template(module.settings.template.pagination_template.html());
+    module.settings.container_pagination.html(template_pagi({total_paginate: module.settings.data.total_paginate}))
+    module.actionClickPaginate();
+  }
+
+  module.actionClickPaginate = function () {
+    $('.pagi').on('click',function (e) {
+      e.preventDefault();
+      var current_container = $(this).parents('ul'),
+        dataPage = {};
+      current_container.find('li.active').removeClass('active');
+      $(this).addClass('active');
+
+      dataPage.page = $(this).find('a').data('page') - 1;
+      module.ajaxPaginate(dataPage);
+    });
+  }
+  module.ajaxPaginate = function (data) {
+    return $.ajax({
+      url: module.settings.api.index,
+      data: data,
+      type: 'GET',
+      dataType: 'json',
+      success: function (res) {
+        if(res.code == 200){
+          module.settings.data.users = res.data.users;
+          module.renderUsers();
+        }else{
+          $.notify(data.message);
+        }
+      },
+      error: function(){
+      }
+    });
   }
 
   module.clickDestroy = function () {
@@ -94,6 +134,7 @@ function User(options) {
 
   module.init = function () {
     module.getUsers(module.renderUsers);
+    module.getUsers(module.renderPaginate);
   }
 
 }
