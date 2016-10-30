@@ -2,8 +2,10 @@ function Company(options) {
   var module = this;
   var defaults = {
     container: $('.list-companies'),
+    container_pagination: $('.pagination'),
     template:{
-      'list_companies': $('#list-companies-template')
+      'list_companies': $('#list-companies-template'),
+      'pagination_template': $('#paginate-template')
     },
     api: {
       'index': '/api/v1/admin/companies'
@@ -19,6 +21,7 @@ function Company(options) {
       success: function(res){
         if(res.code == 200){
           module.settings.data.companies = res.data.companies;
+          module.settings.data.total_paginate = res.data.total_paginate;
           if(callback) {
             callback()
           }
@@ -30,10 +33,47 @@ function Company(options) {
       }
     });
   }
+
   module.renderCompanies = function(){
     var template = _.template(module.settings.template.list_companies.html());
     module.settings.container.html(template({companies: module.settings.data.companies}));
     module.clickDestroy();
+  }
+
+  module.renderPaginate = function () {
+    var template_pagi = _.template(module.settings.template.pagination_template.html());
+    module.settings.container_pagination.html(template_pagi({total_paginate: module.settings.data.total_paginate}))
+    module.actionClickPaginate();
+  }
+  module.actionClickPaginate = function () {
+    $('.pagi').on('click',function (e) {
+      e.preventDefault();
+      var current_container = $(this).parents('ul'),
+        dataPage = {};
+      current_container.find('li.active').removeClass('active');
+      $(this).addClass('active');
+
+      dataPage.page = $(this).find('a').data('page');
+      module.ajaxPaginate(dataPage);
+    });
+  }
+  module.ajaxPaginate = function (data) {
+    return $.ajax({
+      url: module.settings.api.index,
+      data: data,
+      type: 'GET',
+      dataType: 'json',
+      success: function (res) {
+        if(res.code == 200){
+          module.settings.data.companies = res.data.companies;
+          module.renderCompanies();
+        }else{
+          $.notify(data.message);
+        }
+      },
+      error: function(){
+      }
+    });
   }
 
   module.clickDestroy = function () {
@@ -64,7 +104,9 @@ function Company(options) {
       e.preventDefault();
       var dataCompany = {},
         currentContainer = $(this).parents('form');
-      console.log(currentContainer);
+      var parentContainer = currentContainer.parent();
+      parentContainer.find('ul.pagination > li.active').removeClass('active');
+      parentContainer.find('ul.pagination > li:first').addClass('active');
       dataCompany.search = currentContainer.find('input#search').val();
 
       module.getSearchCompanies(dataCompany);
@@ -81,7 +123,11 @@ function Company(options) {
       success: function(res){
         if(res.code == 200){
           module.settings.data.companies = res.data.companies;
+          module.settings.data.total_paginate = res.data.total_paginate;
+
           module.renderCompanies();
+          module.renderPaginate();
+
         }else{
           $.notify(data.message);
         }
@@ -93,6 +139,7 @@ function Company(options) {
 
   module.init = function () {
     module.getCompanies(module.renderCompanies);
+    module.getCompanies(module.renderPaginate);
   }
 
 }

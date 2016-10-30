@@ -1,11 +1,17 @@
 class Api::V1::Admin::CompaniesController < ApplicationController
   skip_before_action :verify_authenticity_token
+  before_action :set_page, only: [:index]
   before_action :get_company, only: [:update, :destroy]
+
+  PER_PAGE = 10
+
   def index
-    @companies = Company.search(params[:search])
+    @companies = Company.search(params[:search]).limit(PER_PAGE).offset(@page.to_i * PER_PAGE)
+    @total = @companies.count / PER_PAGE
 
     @data = {
       companies: @companies,
+      total_paginate: @total,
       total: @companies.count
     }
     render json: {code: 200, data: @data, msg: 'Success'}
@@ -38,6 +44,10 @@ class Api::V1::Admin::CompaniesController < ApplicationController
   end
 
   private
+
+  def set_page
+    @page = params[:page] || 0
+  end
 
   def get_company
     @company = Company.find(params[:id])

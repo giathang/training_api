@@ -1,5 +1,6 @@
 = content_for :js_pages
   = javascript_include_tag '/assets/admin/company', 'data-turbolinks-track' => true
+= link_to 'New Company', new_admin_company_path, class: 'btn btn-sm btn-primary'
 = form_tag("/search", remote: true) do
   = text_field_tag :search, params[:search]
   = submit_tag "Search", title: nil, class: 'js-search'
@@ -13,12 +14,13 @@ table class="table table-striped"
       th
   tbody class="list-companies"
 
-= link_to 'New Company', new_admin_company_path, class: 'btn btn-sm btn-primary'
+ul class="pagination"
+
 script#list-companies-template[type="text/template"]
   | <% idx = 0 %>
   | <%_.each(companies, function(company) { %>
   |   <tr data-id="<%- company._id.$oid %>">
-        <td><%- idx = idx + 1 %> </td>
+        <td><%- company._id.$oid  %> </td>
         <td><%- company.name %></td>
         <td><%- company.address %></td>
         <td><%- company.phone %></td>
@@ -28,4 +30,17 @@ script#list-companies-template[type="text/template"]
   | <% }) %>
 
 
-
+script#paginate-template[type="text/tempalte"]
+  |
+    <% if( total_paginate == 0 ){%>
+      <li class='pagi active'><a href="#" data-page="<%- total_paginate %>"><%- total_paginate + 1 %></a></li>
+    <%}else{%>
+    <% for( var i = 0 ; i < total_paginate; i++ ){%>
+      <% if ( i == 0 ){ %>
+        <li class='pagi active'><a href="#" data-page="<%- i %>"><%- i + 1 %></a></li>
+        <% continue; %>
+      <% } %>
+      <li class='pagi'><a href="#" data-page="<%- i %>"><%- i + 1 %></a></li>
+    <% } %>
+    <%}%>
+  |

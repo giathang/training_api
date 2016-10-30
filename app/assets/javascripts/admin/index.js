@@ -103,17 +103,20 @@ function User(options) {
   module.actionSearch = function () {
     $('.js-search').on('click',function (e) {
       e.preventDefault();
-      var dataCompany = {},
+      var dataUser = {},
         currentContainer = $(this).parents('form');
+      var parentContainer = currentContainer.parent();
+      parentContainer.find('ul.pagination > li.active').removeClass('active');
+      parentContainer.find('ul.pagination > li:first').addClass('active');
       console.log(currentContainer);
-      dataCompany.search = currentContainer.find('input#search').val();
+      dataUser.search = currentContainer.find('input#search').val();
 
-      module.getSearchCompanies(dataCompany);
+      module.getSearchUser(dataUser);
 
     })
   }
 
-  module.getSearchCompanies = function (data) {
+  module.getSearchUser = function (data) {
     return $.ajax({
       url: module.settings.api.index,
       type: 'GET',
@@ -122,7 +125,9 @@ function User(options) {
       success: function(res){
         if(res.code == 200){
           module.settings.data.users = res.data.users;
+          module.settings.data.total_paginate = res.data.total_paginate;
           module.renderUsers();
+          module.renderPaginate();
         }else{
           $.notify(data.message);
         }
